@@ -1,3 +1,11 @@
 from django.contrib import admin
+from .views import *
 
-# Register your models here.
+
+admin.site.register(College)
+admin.site.register(ChatingPlatform)
+admin.site.register(Chater)
+admin.site.register(Message)
+admin.site.register(ChatBox)
+admin.site.register(FakeProfile)
+admin.site.register(Profile)

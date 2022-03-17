@@ -18,9 +18,9 @@ services:
       - ALLOWED_HOSTS=127.0.0.1
       - ALLOWED_CORS=http://127.0.0.1:3000,http://127.0.0.1,http://127.0.0.1:8000,http://localhost:3000,http://localhost
       - DB_HOST=db
-      - DB_NAME=rentyug
-      - DB_USER=rootuser
-      - DB_PASS=db-rentyug
+      - DB_NAME=unknownchats
+      - DB_USER=unknownchats
+      - DB_PASS=db-unknownchats
       - AWS_ACCESS_KEY_ID=AKIA5XR2W6Q72JKAEK3Q
       - AWS_SECRET_ACCESS_KEY=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
       - AWS_STORAGE_BUCKET_NAME=unknownchatsbucket
@@ -39,5 +39,5 @@ services:
     image: postgres:13-alpine
     environment:
       - POSTGRES_DB=unknownchats
-      - POSTGRES_USER=rootuser
+      - POSTGRES_USER=unknownchats
       - POSTGRES_PASSWORD=db-unknownchats

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumit from Unknown Chats</title>
+</head>
+<style>
+    body{
+        margin: 30px;
+        padding: 20px;
+        box-shadow: 1px 1px 8px 3px rgb(136, 133, 133);
+    }
+
+    .button{
+        color: rgb(255, 255, 255)!important;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        box-shadow: 1px 1px 8px 3px rgb(174, 174, 174);
+        text-decoration: none;
+    }
+
+    .button a{
+        color: rgb(255, 255, 255)!important;
+        text-decoration: none;
+    }
+    .red{
+        color: red;
+    }
+</style>
+<body>
+    <h1>Dear {{first_name}},</h1>
+    <p>We got your request to reset your password. If this is not done by you then just ignore this.</p>
+    <br/>
+    <h6 class="button"><a href="https://backend.unknownchats.com/accounts/resetPass/{{id}}/">CLICK HERE TO SET "{{password}}" AS YOUR PASSWORD.</a></h6>
+    <br/>
+    <p class='red'>Link is valid till tonight 11:59pm.</p>
+    <h4>
+        Thank you <br>
+        Sumit from Unknown Chats
+    </h4>
+    <h4></h4>
+    
+</body>
+</html>
