@@ -23,6 +23,7 @@ urlpatterns = [
     path('getOnlineFakeProfiles/', getOnlineFakeProfiles, name='getOnlineFakeProfiles'),
     path('getMessages/', getMessages, name='getMessages'),
     path('addChatBox/', addChatBox, name='addChatBox'),
+    path('addMessage/', addMessage, name='addMessage'),
 ]
 
 
