@@ -13,6 +13,16 @@ urlpatterns = [
     path('accounts/sendForgotPasswordLink/', sendForgotPasswordLink, name='sendForgotPasswordLink'),
     path('accounts/resetPass/<int:id>/', resetPass, name='resetPass'),
 
+    path('setTypeInFakeProfile/', setTypeInFakeProfile, name='setTypeInFakeProfile'),
+    path('setCollege/', setCollege, name='setCollege'),
+    path('getFakeProfiles/', getFakeProfiles, name='getFakeProfiles'),
+    path('setFakeProfile/', setFakeProfile, name='setFakeProfile'),
+    path('getEarlierFakeProfiles/', getEarlierFakeProfiles, name='getEarlierFakeProfiles'),
+    path('setOnlineToFakeProfiles/', setOnlineToFakeProfiles, name='setOnlineToFakeProfiles'),
+    path('getChatBoxesOfFakeProfile/', getChatBoxesOfFakeProfile, name='getChatBoxesOfFakeProfile'),
+    path('getOnlineFakeProfiles/', getOnlineFakeProfiles, name='getOnlineFakeProfiles'),
+    path('getMessages/', getMessages, name='getMessages'),
+    path('addChatBox/', addChatBox, name='addChatBox'),
 ]
 
 

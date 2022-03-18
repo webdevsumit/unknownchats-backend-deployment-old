@@ -19,3 +19,39 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs={
             'password':{'write_only':True}
         }
+
+class ChatingPlatformSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatingPlatform
+        fields = "__all__"
+
+
+class FakeProfileSerializer(serializers.ModelSerializer):
+    chatingPlatform = ChatingPlatformSerializer()
+    class Meta:
+        model = FakeProfile
+        fields = ["id", "displayName", "selectedCollege", "profilePicture", "isOnline", "chatingPlatform"]
+
+
+class ChaterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chater
+        fields = "__all__"
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = "__all__"
+
+class ChatBoxWithMessagesSerializer(serializers.ModelSerializer):
+    chaters = ChaterSerializer(many=True)
+    messages = MessageSerializer(many=True)
+    class Meta:
+        model = ChatBox
+        fields = "__all__"
+
+class ChatBoxSerializer(serializers.ModelSerializer):
+    chaters = ChaterSerializer(many=True)
+    class Meta:
+        model = ChatBox
+        fields = ["id", "chaters", "createdAt"]

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class College(models.Model):
-    collegeName = models.CharField(max_length=50,default='Open World')
+    collegeName = models.CharField(max_length=500,default='Open World')
     numberOfTimeSelected = models.IntegerField(default=1)
     
     def __str__(self):
@@ -40,16 +40,17 @@ class ChatBox(models.Model):
         return str(self.createdAt)
 
 class FakeProfile(models.Model):
-    displayName = models.CharField(max_length=300)
+    displayName = models.CharField(max_length=300, default='Unknown')
     isProfileReadyToUse = models.BooleanField(default=False)
     chatingPlatform = models.ForeignKey(ChatingPlatform, on_delete=models.PROTECT)
-    selectedCollege = models.CharField(max_length=20, default='', blank=True)
+    selectedCollege = models.CharField(max_length=500, default='', blank=True)
     profilePicture = models.ImageField(upload_to='profilePicture', default='images/logo.png')
-    isOnline = models.BooleanField(default=True)
+    isOnline = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now=True)
     chatBoxes = models.ManyToManyField(ChatBox, blank=True)
     isArchieved = models.BooleanField(default=False)
-    
+    # gender and lat long is left
+
     def __str__(self):
         return self.displayName
 
@@ -65,4 +66,4 @@ class Profile(models.Model):
     
 
     def __str__(self):
-        return self.User.username
+        return self.user.username

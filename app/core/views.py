@@ -136,3 +136,241 @@ def resetPass(request, id):
     except:
         return HttpResponse("<h2> Sorry something is wrong.<h2>")
 
+
+@api_view(['POST'])
+def setTypeInFakeProfile(request):
+    if request.method=='POST':
+
+        chatingPlatform = ChatingPlatform.objects.get(platformNumber = request.data['platformNumber'])
+        
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=False)
+        if fakeProfiles.exists():
+            fakeProfile = fakeProfiles[0]
+            fakeProfile.chatingPlatform = chatingPlatform
+            fakeProfile.save()
+        else:
+            fakeProfile = FakeProfile.objects.create(
+                chatingPlatform = chatingPlatform
+            )
+            fakeProfile.save()
+            profile.fakeProfiles.add(fakeProfile)
+            profile.save()
+        return Response({'status':'success'})
+
+    return Response({'status':'failed'})
+
+
+@api_view(['POST'])
+def setCollege(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+
+        college, is_created = College.objects.get_or_create(collegeName = request.data['collegeName'])
+        if not is_created:
+            college.numberOfTimeSelected += 1
+
+        profile = Profile.objects.get(user=user)
+        profile.selectedColleges.add(college)
+        profile.save()
+
+        fakeProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=False)
+        if fakeProfiles.exists():
+            fakeProfile = fakeProfiles[0]
+            fakeProfile.selectedCollege = request.data['collegeName']
+            fakeProfile.save()
+            return Response({'status':'success'})
+        else:
+            return Response({'status':'failed', "message":"First select the chating platform."})
+
+    return Response({'status':'failed'})
+
+
+@api_view(['GET'])
+def getFakeProfiles(request):
+    if request.method=='GET':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=False)
+        if fakeProfiles.exists():
+
+            fakeProfile = fakeProfiles[0]
+            earlierProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=True, isArchieved=False)
+
+            return Response({
+                    'status':'success',
+                    "newProfile":FakeProfileSerializer(fakeProfile, context={'request':request}).data,
+                    "earlierProfiles":FakeProfileSerializer(earlierProfiles, many=True, context={'request':request}).data,
+                })
+        else:
+            return Response({'status':'failed', "message":"First select the chating platform."})
+
+    return Response({'status':'failed'})
+
+
+@api_view(['POST'])
+def setFakeProfile(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfile = profile.fakeProfiles.get(id=int(request.data["id"]))
+        fakeProfile.displayName = request.data["displayName"]
+        fakeProfile.profilePicture = request.FILES.get('profilePicture')
+        fakeProfile.isProfileReadyToUse = True
+        fakeProfile.isOnline = True
+        fakeProfile.save()
+
+        return Response({
+                'status':'success',
+            })
+        
+    return Response({'status':'failed'})
+
+
+@api_view(['GET'])
+def getEarlierFakeProfiles(request):
+    if request.method=='GET':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        earlierProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=True, isArchieved=False)
+        return Response({
+                'status':'success',
+                "earlierProfiles":FakeProfileSerializer(earlierProfiles, many=True, context={'request':request}).data,
+            })
+       
+    return Response({'status':'failed'})
+
+
+@api_view(['POST'])
+def setOnlineToFakeProfiles(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+
+        for tempProfile in profile.fakeProfiles.filter(isOnline = True):
+            tempProfile.isOnline = False
+            tempProfile.save()
+
+        fakeProfile = profile.fakeProfiles.get(id=int(request.data["id"]))
+        fakeProfile.isOnline = True
+        fakeProfile.save()
+        return Response({
+                'status':'success',
+            })
+       
+    return Response({'status':'failed'})
+
+
+@api_view(['GET'])
+def getChatBoxesOfFakeProfile(request):
+    if request.method=='GET':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfile = profile.fakeProfiles.get(isOnline = True)
+
+        chatBoxes = fakeProfile.chatBoxes.filter(isArchieved=False)
+
+        return Response({
+                'status':'success',
+                "profile":FakeProfileSerializer(fakeProfile, context={'request':request}).data,
+                "chatBoxes":ChatBoxSerializer(chatBoxes, many=True, context={'request':request}).data,
+            })
+       
+    return Response({'status':'failed'})
+
+
+@api_view(['GET'])
+def getOnlineFakeProfiles(request):
+    if request.method=='GET':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfile = profile.fakeProfiles.get(isOnline = True)
+
+        if fakeProfile.chatingPlatform.platformNumber=="2":
+            onlineProfiles = FakeProfile.objects.filter(isArchieved=False, selectedCollege=fakeProfile.selectedCollege).exclude(id=fakeProfile.id)
+        else:
+            onlineProfiles = FakeProfile.objects.filter(isArchieved=False).exclude(id=fakeProfile.id)
+
+        return Response({
+                'status':'success',
+                "profile":FakeProfileSerializer(fakeProfile, context={'request':request}).data,
+                "onlineProfiles":FakeProfileSerializer(onlineProfiles, many=True, context={'request':request}).data,
+            })
+       
+    return Response({'status':'failed'})
+
+
+
+@api_view(['POST'])
+def getMessages(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfile = profile.fakeProfiles.get(isOnline = True)
+
+        chatBox = fakeProfile.chatBoxes.filter(isArchieved=False).get(chaters__id=request.data["chaterId"])
+
+        return Response({
+                'status':'success',
+                "profile":FakeProfileSerializer(fakeProfile, context={'request':request}).data,
+                "chatBox":ChatBoxWithMessagesSerializer(chatBox, context={'request':request}).data,
+            })
+       
+    return Response({'status':'failed'})
+
+
+
+@api_view(['POST'])
+def addChatBox(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+
+        fakeProfile = profile.fakeProfiles.get(isOnline = True)
+        fakeProfile2 = FakeProfile.objects.get(id = request.data["chaterAccountId"])
+
+        chater1 = Chater.objects.create(name=fakeProfile.displayName)
+        chater2 = Chater.objects.create(name=fakeProfile.displayName)
+
+        chatBox = ChatBox.objects.create()
+        chatBox.chaters.add(chater1)
+        chatBox.chaters.add(chater2)
+
+        fakeProfile.chatBoxes.add(chatBox)
+        fakeProfile2.chatBoxes.add(chatBox)
+
+        fakeProfile.save()
+        fakeProfile2.save()
+
+        return Response({
+                'status':'success',
+            })
+       
+    return Response({'status':'failed'})
+
+
+@api_view(['POST'])
+def addMessage(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+
+        chatBox = ChatBox.objects.get(id = request.data["chatBoxId"])
+
+        message = Message.objects.create(
+            chater = request.data["chater"],
+            message = request.data["message"]
+        )
+
+        chatBox.messages.add(message)
+        chatBox.save()
+        message.save()
+
+        return Response({
+                'status':'success',
+            })
+       
+    return Response({'status':'failed'})
+
+
