@@ -52,6 +52,7 @@ services:
     volumes:
       - static-data:/vol/static
       - ./nginx/certs/certificate.crt /etc/nginx/certs/certificate.crt
+      - ./nginx/certs/ca_bundle.crt /etc/nginx/certs/ca_bundle.crt
       - ./nginx/certs/private.key /etc/nginx/certs/private.key
 
 volumes:
