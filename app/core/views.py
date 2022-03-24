@@ -193,18 +193,17 @@ def getFakeProfiles(request):
         user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
         profile = Profile.objects.get(user=user)
         fakeProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=False)
+        fakeProfileData = {}
         if fakeProfiles.exists():
-
             fakeProfile = fakeProfiles[0]
-            earlierProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=True, isArchieved=False)
+            fakeProfileData = FakeProfileSerializer(fakeProfile, context={'request':request}).data
 
-            return Response({
-                    'status':'success',
-                    "newProfile":FakeProfileSerializer(fakeProfile, context={'request':request}).data,
-                    "earlierProfiles":FakeProfileSerializer(earlierProfiles, many=True, context={'request':request}).data,
-                })
-        else:
-            return Response({'status':'failed', "message":"First select the chating platform."})
+        earlierProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=True, isArchieved=False)
+        return Response({
+                'status':'success',
+                "newProfile":fakeProfileData,
+                "earlierProfiles":FakeProfileSerializer(earlierProfiles, many=True, context={'request':request}).data,
+            })
 
     return Response({'status':'failed'})
 
@@ -220,6 +219,7 @@ def setFakeProfile(request):
         fakeProfile.isProfileReadyToUse = True
         fakeProfile.isOnline = True
         fakeProfile.save()
+
 
         return Response({
                 'status':'success',
