@@ -67,3 +67,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class NewsSellerEmails(models.Model):
+    email = models.EmailField(max_length=354)
+    createdAt = models.DateTimeField(auto_now=True)
+    isAllowed = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.email)

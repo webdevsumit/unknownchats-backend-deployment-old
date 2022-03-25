@@ -35,6 +35,16 @@ def idFormater(data, idToComplex=True):
         return int(int(data)/formater)
 
 
+@api_view(['POST'])
+def addNewsSellerMail(request):
+    email = request.data['email']
+    if email and re.match(EMAIL_REGEX, email):
+        mail, _ = NewsSellerEmails.objects.get_or_create(email=email)
+        mail.save()
+        return Response({"status":"success", "message":"Thank you for subscribing us."})
+    return Response({"status":"failed", "message":"Please provide a valid email."})
+
+
 @api_view(['GET'])
 def testing(request):
     return Response({"status":"success", "hey":"Do you need any help?"})
