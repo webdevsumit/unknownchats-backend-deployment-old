@@ -44,7 +44,7 @@ class FakeProfile(models.Model):
     isProfileReadyToUse = models.BooleanField(default=False)
     chatingPlatform = models.ForeignKey(ChatingPlatform, on_delete=models.PROTECT)
     selectedCollege = models.CharField(max_length=500, default='', blank=True)
-    profilePicture = models.ImageField(upload_to='profilePicture', default='images/logo.png')
+    profilePicture = models.ImageField(upload_to='profilePicture', default='profilePicture/logo.png')
     isOnline = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now=True)
     chatBoxes = models.ManyToManyField(ChatBox, blank=True)

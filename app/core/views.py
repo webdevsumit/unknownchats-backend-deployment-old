@@ -142,7 +142,8 @@ def resetPass(request, id):
         profile.user.save()
         profile.isEmailVerified = True
         profile.save()
-        return HttpResponseRedirect("https://unknownchats.com/")
+        # return HttpResponseRedirect("https://unknownchats.com/")
+        return HttpResponse("<h2> Your password has been chaged.<h2>")
     except:
         return HttpResponse("<h2> Sorry something is wrong.<h2>")
 
