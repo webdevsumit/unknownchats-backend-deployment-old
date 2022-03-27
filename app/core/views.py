@@ -217,7 +217,7 @@ def verifyEmail(request, id):
 def setTypeInFakeProfile(request):
     if request.method=='POST':
 
-        chatingPlatform = ChatingPlatform.objects.get(platformNumber = request.data['platformNumber'])
+        chatingPlatform = ChatingPlatform.objects.get(id = request.data['id'])
         
         user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
         profile = Profile.objects.get(user=user)
@@ -287,11 +287,9 @@ def getFakeProfiles(request):
 def deleteFakeProfile(request):
     if request.method=='POST':
         user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
-        profile = Profile.objects.get(user=user)
         fakeProfile = profile.fakeProfiles.get(id=request.data['id'])
-        profile.fakeProfiles.remove(fakeProfile)
-        fakeProfile.delete()
-        profile.save()
+        fakeProfile.isArchieved = True
+        fakeProfile.save()
         return Response({'status':'success',})
     return Response({'status':'failed'})
 
@@ -327,6 +325,17 @@ def getEarlierFakeProfiles(request):
                 "earlierProfiles":FakeProfileSerializer(earlierProfiles, many=True, context={'request':request}).data,
             })
        
+    return Response({'status':'failed'})
+
+
+@api_view(['GET'])
+def getChatingPlatforms(request):
+    if request.method=='GET':
+        platforms = ChatingPlatform.objects.all()
+        return Response({
+                'status':'success',
+                "data":ChatingPlatformSerializer(platforms, many=True, context={'request':request}).data,
+            })
     return Response({'status':'failed'})
 
 

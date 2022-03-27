@@ -18,12 +18,14 @@ urlpatterns = [
     path('verifyEmail/<int:id>/', verifyEmail, name='verifyEmail'),
     path('accounts/resetPass/<int:id>/', resetPass, name='resetPass'),
 
-    path('setTypeInFakeProfile/', setTypeInFakeProfile, name='setTypeInFakeProfile'),
-    path('setCollege/', setCollege, name='setCollege'),
     path('getFakeProfiles/', getFakeProfiles, name='getFakeProfiles'),
     path('deleteFakeProfile/', deleteFakeProfile, name='deleteFakeProfile'),
 
+    path('getChatingPlatforms/', getChatingPlatforms, name='getChatingPlatforms'),
+    path('setTypeInFakeProfile/', setTypeInFakeProfile, name='setTypeInFakeProfile'),
+    path('setCollege/', setCollege, name='setCollege'),
     path('setFakeProfile/', setFakeProfile, name='setFakeProfile'),
+
     path('getEarlierFakeProfiles/', getEarlierFakeProfiles, name='getEarlierFakeProfiles'),
     path('setOnlineToFakeProfiles/', setOnlineToFakeProfiles, name='setOnlineToFakeProfiles'),
     path('getChatBoxesOfFakeProfile/', getChatBoxesOfFakeProfile, name='getChatBoxesOfFakeProfile'),
