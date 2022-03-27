@@ -14,6 +14,8 @@ urlpatterns = [
     path('accounts/sendForgotPasswordLink/', sendForgotPasswordLink, name='sendForgotPasswordLink'),
     path('accounts/resetPass/<int:id>/', resetPass, name='resetPass'),
     path('getProfile/', getProfile, name='getProfile'),
+    path('sendEmailVerificationLink/', sendEmailVerificationLink, name='sendEmailVerificationLink'),
+    path('verifyEmail/<int:id>/', verifyEmail, name='verifyEmail'),
 
     path('setTypeInFakeProfile/', setTypeInFakeProfile, name='setTypeInFakeProfile'),
     path('setCollege/', setCollege, name='setCollege'),

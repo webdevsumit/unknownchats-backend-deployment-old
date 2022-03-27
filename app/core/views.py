@@ -96,6 +96,19 @@ def login(request):
     return Response(data)
 
 
+@api_view(['GET'])
+def getProfile(request):
+    data = {}
+    try:
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        data['data'] = ProfileSerializer(profile, context={"request", request}).data
+        data['status'] = "success"
+    except:
+        data['status'] = "failed"
+        data['error'] = "User not found."
+    return Response(data)
+
 def sendingMail(users, tempFile, password=''):
     subject = 'Sumit from Unknown Chats'
     for user in users:
@@ -108,7 +121,6 @@ def sendingMail(users, tempFile, password=''):
         except:
             print("error in sending email.")
             return False
-
 
 @api_view(['POST'])
 def sendForgotPasswordLink(request):
@@ -136,16 +148,22 @@ def sendForgotPasswordLink(request):
 
 
 @api_view(['GET'])
-def getProfile(request):
+def sendEmailVerificationLink(request):
     data = {}
     try:
         user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
-        profile = Profile.objects.get(user=user)
-        data['data'] = ProfileSerializer(profile, context={"request", request}).data
-        data['status'] = "success"
+        if not user.email:
+            data['message'] = "Please add your email Id first."
+        else:
+            isMailSent = sendingMail([user], 'verifyEmail.html')
+            if isMailSent:
+                data['message'] = "Email is sent"
+            else:
+                data['message'] = "Something is wrong. Please contact sumit : +917999004229"
+            data['status'] = "success"
     except:
+        data['error'] = "User with this username is not registered."
         data['status'] = "failed"
-        data['error'] = "User not found."
     return Response(data)
 
 
@@ -156,11 +174,20 @@ def resetPass(request, id):
         profile.user.save()
         profile.isEmailVerified = True
         profile.save()
-        # return HttpResponseRedirect("https://unknownchats.com/")
+        # return HttpResponseRedirect("https://unknownchats.com/password-reset-done/")
         return HttpResponse("<h2> Your password has been chaged.<h2>")
     except:
         return HttpResponse("<h2> Sorry something is wrong.<h2>")
 
+def verifyEmail(request, id):
+    try:
+        profile = Profile.objects.get(user__id=idFormater(id, False))
+        profile.isEmailVerified = True
+        profile.save()
+        # return HttpResponseRedirect("https://unknownchats.com/email-verified/")
+        return HttpResponse("<h2> Your email has been verified.<h2>")
+    except:
+        return HttpResponse("<h2> Sorry something is wrong.<h2>")
 
 @api_view(['POST'])
 def setTypeInFakeProfile(request):
