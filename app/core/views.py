@@ -167,6 +167,30 @@ def sendEmailVerificationLink(request):
     return Response(data)
 
 
+@api_view(['POST'])
+def updateEmail(request):
+    data = {}
+    try:
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        user.email = request.data["email"]
+
+        profile = Profile.objects.get(user=user)
+        profile.isEmailVerified = False
+        user.save()
+        profile.save()
+
+        isMailSent = sendingMail([user], 'verifyEmail.html')
+        if isMailSent:
+            data['message'] = "Please check email and confirm your email id."
+        else:
+            data['message'] = "Something is wrong. Please contact sumit : +917999004229"
+        data['status'] = "success"
+    except:
+        data['error'] = "User with this username is not registered."
+        data['status'] = "failed"
+    return Response(data)
+
+
 def resetPass(request, id):
     try:
         profile = Profile.objects.get(user__id=idFormater(id, False))

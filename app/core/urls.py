@@ -12,10 +12,11 @@ urlpatterns = [
     path('accounts/signup/', signup, name='signup'),
     path('accounts/login/', login, name='login'),
     path('accounts/sendForgotPasswordLink/', sendForgotPasswordLink, name='sendForgotPasswordLink'),
-    path('accounts/resetPass/<int:id>/', resetPass, name='resetPass'),
     path('getProfile/', getProfile, name='getProfile'),
     path('sendEmailVerificationLink/', sendEmailVerificationLink, name='sendEmailVerificationLink'),
+    path('updateEmail/', updateEmail, name='updateEmail'),
     path('verifyEmail/<int:id>/', verifyEmail, name='verifyEmail'),
+    path('accounts/resetPass/<int:id>/', resetPass, name='resetPass'),
 
     path('setTypeInFakeProfile/', setTypeInFakeProfile, name='setTypeInFakeProfile'),
     path('setCollege/', setCollege, name='setCollege'),
