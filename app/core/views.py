@@ -138,14 +138,14 @@ def sendForgotPasswordLink(request):
 @api_view(['GET'])
 def getProfile(request):
     data = {}
-    if User.objects.filter(username=request.data['username']).exists():
-        user = User.objects.get(username=request.data['username'])
+    try:
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
         profile = Profile.objects.get(user=user)
         data['data'] = ProfileSerializer(profile, context={"request", request}).data
         data['status'] = "success"
-    else:
-        data['error'] = "User with this username is not found."
+    except:
         data['status'] = "failed"
+        data['error'] = "User not found."
     return Response(data)
 
 
