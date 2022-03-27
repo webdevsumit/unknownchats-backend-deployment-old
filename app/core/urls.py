@@ -13,10 +13,13 @@ urlpatterns = [
     path('accounts/login/', login, name='login'),
     path('accounts/sendForgotPasswordLink/', sendForgotPasswordLink, name='sendForgotPasswordLink'),
     path('accounts/resetPass/<int:id>/', resetPass, name='resetPass'),
+    path('getProfile/', getProfile, name='getProfile'),
 
     path('setTypeInFakeProfile/', setTypeInFakeProfile, name='setTypeInFakeProfile'),
     path('setCollege/', setCollege, name='setCollege'),
     path('getFakeProfiles/', getFakeProfiles, name='getFakeProfiles'),
+    path('deleteFakeProfile/', deleteFakeProfile, name='deleteFakeProfile'),
+
     path('setFakeProfile/', setFakeProfile, name='setFakeProfile'),
     path('getEarlierFakeProfiles/', getEarlierFakeProfiles, name='getEarlierFakeProfiles'),
     path('setOnlineToFakeProfiles/', setOnlineToFakeProfiles, name='setOnlineToFakeProfiles'),

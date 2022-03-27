@@ -55,3 +55,16 @@ class ChatBoxSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatBox
         fields = ["id", "chaters", "createdAt"]
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = Profile
+        fields = [
+            "id",
+            "user",
+            "mobileNo",
+            "isEmailVerified",
+            "isEmailNotificationAllowed",
+            ]

@@ -135,6 +135,20 @@ def sendForgotPasswordLink(request):
     return Response(data)
 
 
+@api_view(['GET'])
+def getProfile(request):
+    data = {}
+    if User.objects.filter(username=request.data['username']).exists():
+        user = User.objects.get(username=request.data['username'])
+        profile = Profile.objects.get(user=user)
+        data['data'] = ProfileSerializer(profile, context={"request", request}).data
+        data['status'] = "success"
+    else:
+        data['error'] = "User with this username is not found."
+        data['status'] = "failed"
+    return Response(data)
+
+
 def resetPass(request, id):
     try:
         profile = Profile.objects.get(user__id=idFormater(id, False))
@@ -216,6 +230,18 @@ def getFakeProfiles(request):
                 "earlierProfiles":FakeProfileSerializer(earlierProfiles, many=True, context={'request':request}).data,
             })
 
+    return Response({'status':'failed'})
+
+@api_view(['POST'])
+def deleteFakeProfile(request):
+    if request.method=='POST':
+        user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
+        profile = Profile.objects.get(user=user)
+        fakeProfile = profile.fakeProfiles.get(id=request.data['id'])
+        profile.fakeProfiles.remove(fakeProfile)
+        fakeProfile.delete()
+        profile.save()
+        return Response({'status':'success',})
     return Response({'status':'failed'})
 
 
