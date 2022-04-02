@@ -20,6 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
             'password':{'write_only':True}
         }
 
+class CollegeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = College
+        fields = "__all__"
+
+
 class ChatingPlatformSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatingPlatform

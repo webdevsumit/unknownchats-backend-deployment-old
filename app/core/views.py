@@ -233,9 +233,20 @@ def setTypeInFakeProfile(request):
             fakeProfile.save()
             profile.fakeProfiles.add(fakeProfile)
             profile.save()
-        return Response({'status':'success'})
+        return Response({'status':'success', "id":fakeProfile.id})
 
-    return Response({'status':'failed'})
+    return Response({'status':'failed', "message":"Something is wrong."})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getColleges(request):
+    if request.method=='GET':
+
+        colleges = College.objects.all()
+        data = CollegeSerializer(colleges, many=True, context={"request":request}).data
+
+    return Response({'status':'success', "data": data})
 
 
 @api_view(['POST'])

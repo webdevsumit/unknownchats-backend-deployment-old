@@ -33,6 +33,7 @@ urlpatterns = [
     path('getMessages/', getMessages, name='getMessages'),
     path('addChatBox/', addChatBox, name='addChatBox'),
     path('addMessage/', addMessage, name='addMessage'),
+    path('getColleges/', getColleges, name='getColleges'),
 ]
 
 
