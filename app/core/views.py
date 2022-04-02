@@ -247,7 +247,7 @@ def getColleges(request):
         data = CollegeSerializer(colleges, many=True, context={"request":request}).data
 
     return Response({'status':'success', "data": data})
-
+    
 
 @api_view(['POST'])
 def setCollege(request):
@@ -310,12 +310,16 @@ def setFakeProfile(request):
     if request.method=='POST':
         user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
         profile = Profile.objects.get(user=user)
-        fakeProfile = profile.fakeProfiles.get(id=int(request.data["id"]))
-        fakeProfile.displayName = request.data["displayName"]
-        fakeProfile.profilePicture = request.FILES.get('profilePicture')
-        fakeProfile.isProfileReadyToUse = True
-        fakeProfile.isOnline = True
-        fakeProfile.save()
+        fakeProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=False)
+        if fakeProfiles.exists():
+            fakeProfile = fakeProfiles[0]
+            fakeProfile.displayName = request.data["displayName"]
+            fakeProfile.profilePicture = request.FILES.get('profilePicture')
+            fakeProfile.isProfileReadyToUse = True
+            fakeProfile.save()
+            return Response({'status':'success', 'id':fakeProfile.id})
+        else:
+            return Response({'status':'failed', "message":"First select the chating platform."})
 
 
         return Response({
