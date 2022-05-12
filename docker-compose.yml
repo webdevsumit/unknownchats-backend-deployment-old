@@ -18,26 +18,26 @@ services:
       - ALLOWED_HOSTS=127.0.0.1,10.0.2.2
       - ALLOWED_CORS=http://127.0.0.1:3000,http://127.0.0.1,http://127.0.0.1:8000,http://localhost:3000,http://localhost
       - DB_HOST=db
-      - DB_NAME=unknownchats
-      - DB_USER=unknownchats
-      - DB_PASS=db-unknownchats
-      - AWS_ACCESS_KEY_ID=AKIA5XR2W6Q72JKAEK3Q
-      - AWS_SECRET_ACCESS_KEY=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
-      - AWS_STORAGE_BUCKET_NAME=unknownchatsbucket
-      - AWS_S3_REGION_NAME=ap-south-1
-      - AWS_S3_SIGNATURE_VERSION=s3v4
-      - AWS_S3_FILE_OVERWRITE=0
-      - AWS_QUERYSTING_AUTH=0
-      - DEFAULT_FILE_STORAGE=storages.backends.s3boto3.S3Boto3Storage
-      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-      - EMAIL_HOST=smtp.gmail.com
-      - EMAIL_HOST_USER=sumit.unknownchats@gmail.com
-      - EMAIL_HOST_PASSWORD=9713751690@Sumit
+      - DB_NAME=will_be_there
+      - DB_USER=will_be_there
+      - DB_PASS=will_be_there
+      - AWS_ACCESS_KEY_ID=will_be_there
+      - AWS_SECRET_ACCESS_KEY=will_be_there
+      - AWS_STORAGE_BUCKET_NAME=will_be_there
+      - AWS_S3_REGION_NAME=will_be_there
+      - AWS_S3_SIGNATURE_VERSION=will_be_there
+      - AWS_S3_FILE_OVERWRITE=will_be_there
+      - AWS_QUERYSTING_AUTH=will_be_there
+      - DEFAULT_FILE_STORAGE=will_be_there
+      - EMAIL_BACKEND=will_be_there
+      - EMAIL_HOST=will_be_there
+      - EMAIL_HOST_USER=will_be_there
+      - EMAIL_HOST_PASSWORD=will_be_there
     depends_on:
       - db
   db:
     image: postgres:13-alpine
     environment:
-      - POSTGRES_DB=unknownchats
-      - POSTGRES_USER=unknownchats
-      - POSTGRES_PASSWORD=db-unknownchats
+      - POSTGRES_DB=will_be_there
+      - POSTGRES_USER=will_be_there
+      - POSTGRES_PASSWORD=will_be_there

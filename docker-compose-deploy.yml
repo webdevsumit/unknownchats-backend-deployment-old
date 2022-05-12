@@ -15,18 +15,18 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
-      - AWS_ACCESS_KEY_ID=AKIA5XR2W6Q72JKAEK3Q
-      - AWS_SECRET_ACCESS_KEY=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
-      - AWS_STORAGE_BUCKET_NAME=unknownchatsbucket
-      - AWS_S3_REGION_NAME=ap-south-1
-      - AWS_S3_SIGNATURE_VERSION=s3v4
-      - AWS_S3_FILE_OVERWRITE=0
-      - AWS_QUERYSTING_AUTH=0
-      - DEFAULT_FILE_STORAGE=storages.backends.s3boto3.S3Boto3Storage
-      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - AWS_ACCESS_KEY_ID=will_be_there
+      - AWS_SECRET_ACCESS_KEY=will_be_there
+      - AWS_STORAGE_BUCKET_NAME=will_be_there
+      - AWS_S3_REGION_NAME=will_be_there
+      - AWS_S3_SIGNATURE_VERSION=will_be_there
+      - AWS_S3_FILE_OVERWRITE=will_be_there
+      - AWS_QUERYSTING_AUTH=will_be_there
+      - DEFAULT_FILE_STORAGE=will_be_there
+      - EMAIL_BACKEND=will_be_there
       - EMAIL_HOST=smtp.gmail.com
-      - EMAIL_HOST_USER=sumit.unknownchats@gmail.com
-      - EMAIL_HOST_PASSWORD=9713751690@Sumit
+      - EMAIL_HOST_USER=will_be_there
+      - EMAIL_HOST_PASSWORD=will_be_there
     depends_on:
       - db
 

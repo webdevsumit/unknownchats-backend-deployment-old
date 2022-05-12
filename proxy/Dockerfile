@@ -1,5 +1,5 @@
 FROM nginxinc/nginx-unprivileged:1-alpine
-LABEL maintainer="backend.unknownchats.com"
+LABEL maintainer="will_be_there.com"
 
 COPY ./nginx/certs/certificate.crt /etc/nginx/certs/certificate.crt
 COPY ./nginx/certs/private.key /etc/nginx/certs/private.key
