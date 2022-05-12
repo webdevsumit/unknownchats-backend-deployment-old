@@ -15,7 +15,7 @@ services:
     environment: 
       - SECRET_KEY=^ua)^lrc*+lx8ry!&k@74jbsdqzjs05(rdwj&ixbc5g_lyojys
       - DEBUG=1
-      - ALLOWED_HOSTS=127.0.0.1
+      - ALLOWED_HOSTS=127.0.0.1,10.0.2.2
       - ALLOWED_CORS=http://127.0.0.1:3000,http://127.0.0.1,http://127.0.0.1:8000,http://localhost:3000,http://localhost
       - DB_HOST=db
       - DB_NAME=unknownchats

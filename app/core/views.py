@@ -311,6 +311,8 @@ def setFakeProfile(request):
         user = Token.objects.get(key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]).user
         profile = Profile.objects.get(user=user)
         fakeProfiles = profile.fakeProfiles.filter(isProfileReadyToUse=False)
+        print(request.data)
+        print(request.FILES)
         if fakeProfiles.exists():
             fakeProfile = fakeProfiles[0]
             fakeProfile.displayName = request.data["displayName"]
